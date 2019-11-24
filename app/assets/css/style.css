@@ -1,0 +1,10 @@
+@import './reset.css';
+@import './header.css';
+@import './form.css';
+@import './data-list.css';
+#app{
+    width: 100vw;
+    height:100vh;
+    background-color: rgb(63,68,76);
+}
+

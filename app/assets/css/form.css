@@ -1,0 +1,31 @@
+.search-form{
+    width: 80%;
+    margin: 0 auto;
+}
+.search-field{
+    background: rgb(77,83,92);
+    width: 100%;
+    padding: 0.7em;
+    border-radius: 0.5em;
+    color: white;
+    border: 1px solid wheat;
+}
+.search-field:focus{
+    outline: none;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+@media screen and (min-width:768px){
+    .search-form{
+        width: 60%;
+    }
+}
+
+.search__error{
+    border : 1px solid red;
+}

@@ -1,0 +1,27 @@
+.data-list{
+    width: 80%;
+    margin: 0 auto;
+    padding:0.8em;
+    color: white;
+    background: rgb(77,83,92);;
+    font-size: 0.8em;
+}
+.data__item{
+    display: flex;
+    border-bottom: 1px solid rgb(63,68,76);;
+    padding: 0.8em 0.5em;
+    
+}
+.data__name{
+    width: 65%;
+    text-transform: uppercase;
+}
+.data__value{
+    width: 35%;
+    word-break: break-all !important;
+}
+@media screen and (min-width:768px){
+    .data-list{
+        width: 60%;
+    }
+}

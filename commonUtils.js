@@ -1,32 +1,17 @@
+import { put } from 'redux-saga/effects';
 
-// import { put } from 'redux-saga/effects';
+export function* ErrorCheck(action, error, constant) {
+   if (error.response.status === 404) {
+      yield put(push('/'));
+   } else {
+      yield put({ type: constant, error: error.message });
+   }
+}
 
-// export function* ErrorCheck(action, error, constant) {
-//     if (error.response) {
-//         if (error.response.status === 401) {
-//             yield put(push('/login'));
-//         } else if (error.response.status === 403) {
-//             yield put(push('/forbidden'));
-//         } else if (error.response.status === 404) {
-//             yield put(push('/forbidden'));
-//         } else {
-//             yield put({ type: constant, error: error.message });
-//         }
-//     }
-// }
+export function ipv4Validator(value) {
+   return /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]|[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]|[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]|[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]|[0-9][0-9]?)$/.test(value)
+}
 
-// // export function GetHeaders() {
-// //     let headers = {
-// //         headers: {
-// //             'Content-Type': 'application/json',
-// //         }
-// //     };
-// //     if (localStorage.token) {
-// //         if(window.location.pathname.includes("application/")) {
-// //             headers.headers["X-Authorization"] = `Bearer ${applicationStudioAccessToken}`;
-// //         } else {
-// //             headers.headers["X-Authorization"] = `Bearer ${localStorage.token}`;
-// //         }
-// //     }
-// //     return headers
-// // }
+export function ipv6Validator(value) {
+   return /(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))/g.test(value)
+}

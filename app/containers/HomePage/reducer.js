@@ -5,21 +5,20 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
 import * as CONSTANTS from './constants'
 export const initialState = fromJS({});
 
 function homePageReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
+    case CONSTANTS.DEFAULT_ACTION:
       return state;
-    case CONSTANTS.GET_OWN_IP_SUCCESS:
-    return Object.assign({}, state, {
-      'getOwnIpSuccess': action.response
-    });
-    case CONSTANTS.GET_SPECIFIC_IP_FAILURE:
+    case CONSTANTS.GET_IP_SUCCESS:
       return Object.assign({}, state, {
-        'getOwnIpFailure': action.error
+        'getIpSuccess': action.response
+      });
+    case CONSTANTS.GET_IP_FAILURE:
+      return Object.assign({}, state, {
+        'getIpFailure': action.error
       });
 
     default:

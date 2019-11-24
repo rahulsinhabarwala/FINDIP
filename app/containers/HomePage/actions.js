@@ -12,9 +12,9 @@ export function defaultAction() {
   };
 }
 
-export function getOwnIpAddress (ip) {
+export function getOwnIpAddress(ipAddress) {
   return {
-    type: CONSTANTS.GET_OWN_IP,
-    ip
+    type: CONSTANTS.GET_IP,
+    ipAddress
   }
 }
