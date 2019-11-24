@@ -6,7 +6,6 @@ const apis = {
     "getOwnApi": "http://ipv6.ip.nf/me.json"
 }
 
-
 export function* apiCallHandler(action, responseConst, errorConst, apiUrlConstant, isLoading = true) {
     try {
         yield [apiTryBlockHandler(action, responseConst, apiUrlConstant, isLoading)];
@@ -31,20 +30,3 @@ function* apiTryBlockHandler(action, responseConst, apiUrlConstant, isLoading = 
             break;
     }
 }
-
-// Hi,
-
-// To Do:
-// There's an attached screenshot of the task.
-// There's an input field and display data about ip.
-// Get the data using the api from https://ip.nf/
-// Also, you need to put validation on the input field for checking in input as an IP.
-// You may use a third party script for that.
-// On initial load the data will be about the user.
-// After that user can enter an IP to get details about it.
-
-// Note:
-// Try to segregate the code into components.
-// Use common styles.
-// Try using loop on the result to render than hardcoding the keys.
-// The UI is just an example. Feel free to use your own styler and be creative.
