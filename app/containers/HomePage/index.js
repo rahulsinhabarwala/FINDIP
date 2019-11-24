@@ -86,7 +86,6 @@ export class HomePage extends React.Component {
           <form className="search-form" onSubmit={this.handelIpOnClick} >
             <label ></label>
             <input className={this.state.isValid ? "search-field" : "search-field search__error"} name="search-field" placeholder='Enter an IP address' onChange={() => this.setState({ enteredIp: event.target.value })} />
-            <button type="submit"></button>
           </form>
           <ul className="data-list list-group">
             {this.state.ipkeys.length && this.state.ipkeys.map((item, index) =>
