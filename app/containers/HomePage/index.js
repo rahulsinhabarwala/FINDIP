@@ -34,25 +34,26 @@ export class HomePage extends React.Component {
       latitude: 0,
       longitude: 0
     },
-    ipkeys:undefined 
+    enteredIp:"",
+    ipkeys:["ip","asn","netmask","hostname","city","post_code","country","country_code","latitude","longitude"] 
   }
 
   componentDidMount(){
-    if(!this.state.ipkeys){
-      this.props.getOwnIpAddress()
-    }
+      // this.props.getOwnIpAddress()
   }
   componentWillReceiveProps(nextProps){
     if(nextProps.getOwnIpSuccess && nextProps.getOwnIpSuccess != this.props.getOwnIpSuccess){
-      console.log("nextProps.getOwnIpSuccess",nextProps.getOwnIpSuccess)
       let ip = JSON.parse(JSON.stringify(this.state.ip))
       ip = nextProps.getOwnIpSuccess ;
       let ipkeys = Object.keys(nextProps.getOwnIpSuccess.ip)
       this.setState({ipkeys,ip})
     }
   }
+  handelIpOnClick = (event) => {
+    
+  }
   render() {
-    // console.log(JSON.stringify(this.state))
+    console.log(JSON.stringify(this.state))
     return (
       <React.Fragment>
         <Helmet>
@@ -64,16 +65,16 @@ export class HomePage extends React.Component {
       <main className="main">
         <form className="search-form" action="#">
               <label htmlFor="search-field"></label>
-              <input className="search-field" type="number" name="search-field"/>
+              <input className="search-field" type="number" name="search-field" onChange={() => this.setState({enteredIp:event.target.value})}/>
+              <button type="button" onClick={this.handelIpOnClick}></button>
         </form>
-          <ul className="data-container">
-            {this.state.ipkeys && this.state.ipkeys.length > 0 && this.state.ipkeys.map((item,index) => {
-              <li className="data__field">
-                {console.log("stateeeeeee",item)}
+          <ul className="data-container list-group">
+          {this.state.ipkeys.map( item => 
+              (<li className="data__field">
                 <article className={`data__name data__name__${item}`}>{item}</article>
-                {/* <article className={`data__value data__value__${item}`}>{this.state.ip[item]}</article> */}
-            </li>
-            })}
+                <article className={`data__value data__value__${item}`}>{this.state.ip[item]}</article>
+              </li>)
+            )}
               {/* <li className="data__field">
                   <article className="data__name data__name__asn">{this.state.asn}</article>
                   <article className="data__value data__value__asn"></article>
