@@ -17,7 +17,6 @@ import * as SELECTORS from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-/* eslint-disable react/prefer-stateless-function */
 export class HomePage extends React.Component {
 // 10.15.3 node 
 // 6.4.1 npm
@@ -35,7 +34,9 @@ export class HomePage extends React.Component {
       longitude: 0
     },
     enteredIp:"",
-    ipkeys:["ip","asn","netmask","hostname","city","post_code","country","country_code","latitude","longitude"] 
+    ipkeys: undefined, 
+    ipv4RE: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+    ipv6RE:"((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))"
   }
 
   componentDidMount(){
@@ -44,16 +45,22 @@ export class HomePage extends React.Component {
   componentWillReceiveProps(nextProps){
     if(nextProps.getOwnIpSuccess && nextProps.getOwnIpSuccess != this.props.getOwnIpSuccess){
       let ip = JSON.parse(JSON.stringify(this.state.ip))
-      ip = nextProps.getOwnIpSuccess ;
+      ip = nextProps.getOwnIpSuccess.ip ;
       let ipkeys = Object.keys(nextProps.getOwnIpSuccess.ip)
       this.setState({ipkeys,ip})
     }
   }
   handelIpOnClick = (event) => {
-    
+    event.preventDefault()
+      if (this.state.ipv4RE.test(this.state.enteredIp)){
+        console.log("trueee")
+      }elseif(){
+        console.log("nottrue")
+      
+      }
   }
   render() {
-    console.log(JSON.stringify(this.state))
+    console.log(JSON.stringify(this.state.enteredIp))
     return (
       <React.Fragment>
         <Helmet>
@@ -63,54 +70,17 @@ export class HomePage extends React.Component {
         </Helmet>
 
       <main className="main">
-        <form className="search-form" action="#">
-              <label htmlFor="search-field"></label>
-              <input className="search-field" type="number" name="search-field" onChange={() => this.setState({enteredIp:event.target.value})}/>
-              <button type="button" onClick={this.handelIpOnClick}></button>
+        <form className="search-form">
+            <input className="search-field" onChange={() => this.setState({enteredIp:event.target.value})}/>
+            <button className="btn btn-primary" type="button" onClick={this.handelIpOnClick}></button>
         </form>
           <ul className="data-container list-group">
-          {this.state.ipkeys.map( item => 
-              (<li className="data__field">
+          { this.state.ipkeys && this.state.ipkeys.map( (item,index) => 
+              <li key={index} className="data__field">
                 <article className={`data__name data__name__${item}`}>{item}</article>
                 <article className={`data__value data__value__${item}`}>{this.state.ip[item]}</article>
-              </li>)
-            )}
-              {/* <li className="data__field">
-                  <article className="data__name data__name__asn">{this.state.asn}</article>
-                  <article className="data__value data__value__asn"></article>
               </li>
-              <li className="data__field">
-                  <article className="data__name data__name__netmask">{this.state.netmask}</article>
-                  <article className="data__value data__value__netmask"></article>
-              </li>
-              <li className="data__field">
-                  <article className="data__name data__name__hostname">{this.state.hostname}</article>
-                  <article className="data__value data__value__hostname"></article>
-              </li>
-              <li className="data__field">
-                  <article className="data__name data__name__city">{this.state.city}</article>
-                  <article className="data__value data__value__city"></article>
-              </li>
-              <li className="data__field">
-                  <article className="data__name data__name__post-code">{this.state.post_code}</article>
-                  <article className="data__value data__value__post-code"></article>
-              </li>
-              <li className="data__field">
-                  <article className="data__name data__name__country">{this.state.country}}</article>
-                  <article className="data__value data__value__country"></article>
-              </li>
-              <li className="data__field">
-                  <article className="data__name data__name__country-code">{this.state.country_code}</article>
-                  <article className="data__value data__value__country-code"></article>
-              </li>
-              <li className="data__field">
-                  <article className="data__name data__name__latitude">{this.state.latitude}</article>
-                  <article className="data__value data__value__latitude"></article>
-              </li>
-              <li className="data__field">
-                  <article className="data__name data__name__longitude">{this.state.longitude}</article>
-                  <article className="data__value data__value__longitude"></article>
-              </li> */}
+          )}
           </ul>
         </main>
       </React.Fragment>
@@ -130,7 +100,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    getOwnIpAddress: () => dispatch(ACTONS.getOwnIpAddress())
+    getOwnIpAddress: (ip) => dispatch(ACTONS.getOwnIpAddress(ip))
   };
 }
 

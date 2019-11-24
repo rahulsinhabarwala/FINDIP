@@ -20,8 +20,11 @@ export function* apiCallHandler(action, responseConst, errorConst, apiUrlConstan
 function* apiTryBlockHandler(action, responseConst, apiUrlConstant, isLoading = true) {
     switch (apiUrlConstant) {
         case 'getOwnApi': {
-           let url = `http://ipv4.ip.nf/me.json`
+            let url
+           action.ip ? url = `https://ip.nf/${action.ip}.json` : url = `http://ipv4.ip.nf/me.json`
+           console.log(url,"urllll")
             const response = yield call(axios.get, url);
+            console.log(response,"response")
             yield put({ type: responseConst, response: response.data });
             break;
         }
